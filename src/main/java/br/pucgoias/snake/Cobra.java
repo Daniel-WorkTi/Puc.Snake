@@ -30,10 +30,32 @@ public class Cobra {
      * @param direcaoInicial direcao inicial do movimento
      */
     public Cobra(Posicao inicio, Direcao direcaoInicial) {
+        this(inicio, direcaoInicial, 1);
+    }
+
+    /**
+     * Cria a cobra com um tamanho inicial. Os segmentos do corpo sao
+     * posicionados atras da cabeca (no sentido oposto ao da direcao),
+     * para que a cobra ja comece esticada.
+     *
+     * @param inicio         posicao inicial da cabeca
+     * @param direcaoInicial direcao inicial do movimento
+     * @param tamanhoInicial quantidade de segmentos da cobra (>= 1)
+     */
+    public Cobra(Posicao inicio, Direcao direcaoInicial, int tamanhoInicial) {
+        if (tamanhoInicial < 1) {
+            throw new IllegalArgumentException("O tamanho inicial deve ser pelo menos 1.");
+        }
         this.corpo = new ArrayDeque<>();
-        this.corpo.addFirst(inicio);
         this.direcao = direcaoInicial;
         this.deveCrescer = false;
+
+        Direcao oposta = direcaoInicial.oposta();
+        Posicao parte = inicio;
+        for (int i = 0; i < tamanhoInicial; i++) {
+            corpo.addLast(parte); // cabeca fica no inicio, cauda no fim
+            parte = parte.mover(oposta);
+        }
     }
 
     /**
