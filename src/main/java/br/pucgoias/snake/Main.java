@@ -3,16 +3,8 @@ package br.pucgoias.snake;
 import java.util.Random;
 import java.util.Scanner;
 
-/**
- * Demonstracao do jogo no terminal.
- *
- * <p>Esta classe NAO faz parte da logica testada: ela apenas usa as classes
- * {@link JogoSnake} e {@link Cobra} para mostrar uma partida jogavel no console,
- * util para apresentar o projeto ao vivo.</p>
- *
- * <p>Controles: digite W (cima), A (esquerda), S (baixo), D (direita) e ENTER.
- * Cada comando avanca um passo do jogo. Digite Q para sair.</p>
- */
+// Versao do jogo no terminal. Usa as classes do jogo para jogar no console.
+// Controles: W (cima), A (esquerda), S (baixo), D (direita) e ENTER. Q sai.
 public class Main {
 
     private static final int LARGURA = 20;
@@ -51,7 +43,6 @@ public class Main {
 
             jogo.atualizar();
 
-            // Se a cobra comeu a comida, gera uma nova.
             if (jogo.getComida() == null && !jogo.isJogoAcabou()) {
                 gerarComida(jogo, random);
             }
@@ -64,22 +55,21 @@ public class Main {
         scanner.close();
     }
 
-    /**
-     * Converte a tecla digitada em uma {@link Direcao}.
-     */
     private static Direcao lerDirecao(String entrada) {
-        return switch (entrada) {
-            case "w" -> Direcao.CIMA;
-            case "a" -> Direcao.ESQUERDA;
-            case "s" -> Direcao.BAIXO;
-            case "d" -> Direcao.DIREITA;
-            default -> null;
-        };
+        switch (entrada) {
+            case "w":
+                return Direcao.CIMA;
+            case "a":
+                return Direcao.ESQUERDA;
+            case "s":
+                return Direcao.BAIXO;
+            case "d":
+                return Direcao.DIREITA;
+            default:
+                return null;
+        }
     }
 
-    /**
-     * Sorteia uma posicao livre (sem cobra) para colocar a comida.
-     */
     private static void gerarComida(JogoSnake jogo, Random random) {
         Posicao nova;
         do {
@@ -90,17 +80,13 @@ public class Main {
         jogo.setComida(nova);
     }
 
-    /**
-     * Desenha o tabuleiro no terminal:
-     * # = parede, O = cabeca, o = corpo, * = comida.
-     */
+    // Desenha o tabuleiro: # parede, O cabeca, o corpo, * comida.
     private static void desenhar(JogoSnake jogo) {
         System.out.println();
         Cobra cobra = jogo.getCobra();
         Posicao cabeca = cobra.getCabeca();
         Posicao comida = jogo.getComida();
 
-        // Borda superior
         System.out.println("#".repeat(jogo.getLargura() + 2));
 
         for (int linha = 0; linha < jogo.getAltura(); linha++) {
@@ -121,7 +107,6 @@ public class Main {
             System.out.println(sb);
         }
 
-        // Borda inferior
         System.out.println("#".repeat(jogo.getLargura() + 2));
         System.out.println("Pontuacao: " + jogo.getPontuacao() + " | Tamanho: " + cobra.getTamanho());
     }
