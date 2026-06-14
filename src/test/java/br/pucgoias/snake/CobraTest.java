@@ -7,10 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-/**
- * Testes automatizados (JUnit 5) para a classe {@link Cobra}.
- * Cobrem movimentacao, crescimento, direcao oposta e colisao com o corpo.
- */
+// Testes da classe Cobra (movimento, crescimento, direcao e colisao).
 class CobraTest {
 
     @Test
@@ -81,8 +78,7 @@ class CobraTest {
     @Test
     @DisplayName("Deve detectar colisao com o proprio corpo")
     void deveDetectarColisaoComProprioCorpo() {
-        // Cobra de tamanho 5 que faz um quadrado e bate em si mesma.
-        // (com tamanho 4 a cauda libera a casa no mesmo passo, sem colisao)
+        // cobra de tamanho 5 faz um quadrado e bate em si mesma
         Cobra cobra = new Cobra(new Posicao(5, 5), Direcao.DIREITA);
         cobra.crescer();
         cobra.mover(); // (5,6)

@@ -1,13 +1,8 @@
 package br.pucgoias.snake;
 
-/**
- * Controla as regras principais do jogo da cobrinha:
- * dimensoes do tabuleiro, a cobra, a posicao da comida,
- * as colisoes (parede e corpo), a pontuacao e o fim de jogo.
- */
+// Regras do jogo: tabuleiro, cobra, comida, pontuacao e fim de jogo.
 public class JogoSnake {
 
-    /** Pontos ganhos a cada comida consumida. */
     private static final int PONTOS_POR_COMIDA = 10;
 
     private final int largura;
@@ -19,24 +14,10 @@ public class JogoSnake {
     private int pontuacao;
     private boolean jogoAcabou;
 
-    /**
-     * Cria um jogo com o tabuleiro nas dimensoes informadas.
-     * A cobra comeca no centro, movendo-se para a direita.
-     *
-     * @param largura numero de colunas do tabuleiro
-     * @param altura  numero de linhas do tabuleiro
-     */
     public JogoSnake(int largura, int altura) {
         this(largura, altura, 1);
     }
 
-    /**
-     * Cria um jogo definindo o tamanho inicial da cobra.
-     *
-     * @param largura        numero de colunas do tabuleiro
-     * @param altura         numero de linhas do tabuleiro
-     * @param tamanhoInicial tamanho inicial da cobra
-     */
     public JogoSnake(int largura, int altura, int tamanhoInicial) {
         if (largura <= 0 || altura <= 0) {
             throw new IllegalArgumentException("Largura e altura devem ser positivas.");
@@ -48,43 +29,19 @@ public class JogoSnake {
         this.jogoAcabou = false;
     }
 
-    /**
-     * Define a direcao desejada para a cobra no proximo passo.
-     * Direcoes opostas a atual sao ignoradas pela propria cobra.
-     *
-     * @param direcao nova direcao
-     */
     public void mudarDirecao(Direcao direcao) {
         cobra.mudarDirecao(direcao);
     }
 
-    /**
-     * Define a posicao da comida no tabuleiro.
-     *
-     * @param comida posicao da comida
-     */
     public void setComida(Posicao comida) {
         this.comida = comida;
     }
 
-    /**
-     * @return a posicao atual da comida (pode ser {@code null} se nao houver)
-     */
     public Posicao getComida() {
         return comida;
     }
 
-    /**
-     * Executa um passo do jogo:
-     * <ol>
-     *     <li>verifica se a cobra vai comer a comida;</li>
-     *     <li>move a cobra (crescendo se comeu);</li>
-     *     <li>verifica colisoes com parede e com o proprio corpo;</li>
-     *     <li>atualiza a pontuacao.</li>
-     * </ol>
-     *
-     * <p>Se o jogo ja acabou, o metodo nao faz nada.</p>
-     */
+    // Um passo do jogo: anda a cobra, trata a comida e as colisoes.
     public void atualizar() {
         if (jogoAcabou) {
             return;
@@ -110,11 +67,6 @@ public class JogoSnake {
         }
     }
 
-    /**
-     * Verifica se a cabeca da cobra saiu dos limites do tabuleiro.
-     *
-     * @return {@code true} se houve colisao com a parede
-     */
     public boolean colidiuComParede() {
         Posicao cabeca = cobra.getCabeca();
         return cabeca.getLinha() < 0

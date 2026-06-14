@@ -1,11 +1,7 @@
 package br.pucgoias.snake;
 
-/**
- * Representa as quatro direcoes possiveis de movimento da cobra no tabuleiro.
- *
- * <p>Cada direcao guarda o deslocamento que ela provoca em linhas e colunas,
- * facilitando o calculo da proxima posicao da cobra.</p>
- */
+// Direcoes que a cobra pode seguir. Cada uma guarda o quanto
+// muda na linha e na coluna ao andar.
 public enum Direcao {
 
     CIMA(-1, 0),
@@ -29,28 +25,19 @@ public enum Direcao {
         return deltaColuna;
     }
 
-    /**
-     * Retorna a direcao oposta a atual.
-     * Usado para impedir que a cobra inverta o sentido imediatamente
-     * (o que faria a cabeca colidir com o corpo).
-     *
-     * @return a direcao contraria
-     */
     public Direcao oposta() {
-        return switch (this) {
-            case CIMA -> BAIXO;
-            case BAIXO -> CIMA;
-            case ESQUERDA -> DIREITA;
-            case DIREITA -> ESQUERDA;
-        };
+        switch (this) {
+            case CIMA:
+                return BAIXO;
+            case BAIXO:
+                return CIMA;
+            case ESQUERDA:
+                return DIREITA;
+            default:
+                return ESQUERDA;
+        }
     }
 
-    /**
-     * Indica se a direcao informada e oposta a direcao atual.
-     *
-     * @param outra direcao a comparar
-     * @return {@code true} se forem opostas
-     */
     public boolean ehOposta(Direcao outra) {
         return this.oposta() == outra;
     }

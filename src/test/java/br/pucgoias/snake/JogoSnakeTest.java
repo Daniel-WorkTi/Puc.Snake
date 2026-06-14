@@ -7,10 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-/**
- * Testes automatizados (JUnit 5) para a classe {@link JogoSnake}.
- * Cobrem pontuacao, colisao com parede, colisao com o corpo e fim de jogo.
- */
+// Testes da classe JogoSnake (pontuacao, colisoes e fim de jogo).
 class JogoSnakeTest {
 
     @Test
@@ -18,7 +15,7 @@ class JogoSnakeTest {
     void deveAumentarPontuacaoQuandoComerComida() {
         JogoSnake jogo = new JogoSnake(20, 20);
         Posicao cabeca = jogo.getCobra().getCabeca();
-        // Coloca a comida exatamente na proxima casa (a cobra anda para a direita).
+        // comida na proxima casa (a cobra vai para a direita)
         jogo.setComida(new Posicao(cabeca.getLinha(), cabeca.getColuna() + 1));
 
         int pontuacaoAntes = jogo.getPontuacao();
@@ -44,13 +41,13 @@ class JogoSnakeTest {
     @Test
     @DisplayName("Deve finalizar o jogo ao bater na parede")
     void deveFinalizarJogoAoBaterNaParede() {
-        // Tabuleiro pequeno: cobra comeca em (2,2) indo para a direita.
+        // tabuleiro pequeno: a cobra logo chega na parede
         JogoSnake jogo = new JogoSnake(5, 5);
         assertFalse(jogo.isJogoAcabou());
 
-        jogo.atualizar(); // (2,3)
-        jogo.atualizar(); // (2,4)
-        jogo.atualizar(); // (2,5) -> fora do tabuleiro
+        jogo.atualizar();
+        jogo.atualizar();
+        jogo.atualizar(); // sai do tabuleiro
 
         assertTrue(jogo.isJogoAcabou());
         assertTrue(jogo.colidiuComParede());
@@ -64,13 +61,13 @@ class JogoSnakeTest {
         int linha = c.getLinha();
         int coluna = c.getColuna();
 
-        // Faz a cobra crescer ate o tamanho 5, comendo comida para a direita.
+        // cresce ate tamanho 5 comendo para a direita
         for (int i = 1; i <= 4; i++) {
             jogo.setComida(new Posicao(linha, coluna + i));
             jogo.atualizar();
         }
 
-        // Faz um quadrado para a cabeca colidir com o corpo.
+        // faz um quadrado para bater no proprio corpo
         jogo.mudarDirecao(Direcao.CIMA);
         jogo.atualizar();
         jogo.mudarDirecao(Direcao.ESQUERDA);
@@ -85,10 +82,10 @@ class JogoSnakeTest {
     @DisplayName("Nao deve permitir mudar para a direcao oposta imediata")
     void naoDevePermitirDirecaoOpostaImediata() {
         JogoSnake jogo = new JogoSnake(20, 20);
-        // A cobra esta indo para a direita; tenta inverter para a esquerda.
+        // indo para a direita, tenta virar para a esquerda
         Posicao cabeca = jogo.getCobra().getCabeca();
         jogo.setComida(new Posicao(cabeca.getLinha(), cabeca.getColuna() + 1));
-        jogo.atualizar(); // cresce para tamanho 2
+        jogo.atualizar();
 
         jogo.mudarDirecao(Direcao.ESQUERDA);
 

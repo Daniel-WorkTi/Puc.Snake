@@ -18,16 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-/**
- * Interface grafica (janela) do Snake em preto e branco, usando Java Swing.
- *
- * <p>Roda em tempo real (sem precisar digitar comando a comando): a cobra anda
- * sozinha e o jogador muda a direcao com as setas ou W/A/S/D. Mostra a caixa de
- * RECORDE no topo e a PONTUACAO na lateral direita. A cobra comeca com tamanho 3.</p>
- *
- * <p>Toda a logica do jogo continua nas classes {@link JogoSnake} e {@link Cobra};
- * esta classe apenas desenha e captura o teclado.</p>
- */
+// Tela do jogo em Swing (preto e branco). A cobra anda sozinha e o jogador
+// muda a direcao pelas setas ou WASD. Toda a regra fica em JogoSnake/Cobra;
+// aqui so desenhamos e lemos o teclado.
 public class SnakeGUI extends JPanel {
 
     private static final int COLUNAS = 24;
@@ -71,14 +64,14 @@ public class SnakeGUI extends JPanel {
         timer.start();
     }
 
-    /** Comeca (ou reinicia) uma partida do zero. */
+    // inicia ou reinicia a partida
     private void iniciarPartida() {
         jogo = new JogoSnake(COLUNAS, LINHAS, TAMANHO_INICIAL);
         proximaDirecao = Direcao.DIREITA;
         gerarComida();
     }
 
-    /** Executa um passo do jogo a cada batida do timer. */
+    // chamado pelo timer a cada passo do jogo
     private void passo() {
         if (jogo.isJogoAcabou()) {
             return;
@@ -98,7 +91,7 @@ public class SnakeGUI extends JPanel {
         repaint();
     }
 
-    /** Sorteia uma posicao livre para a comida. */
+    // sorteia um lugar livre para a comida
     private void gerarComida() {
         Posicao nova;
         do {
@@ -107,7 +100,7 @@ public class SnakeGUI extends JPanel {
         jogo.setComida(nova);
     }
 
-    /** Trata as teclas: setas / WASD para mover, ENTER para reiniciar. */
+    // setas ou WASD movem; ENTER reinicia quando o jogo acaba
     private void tratarTecla(int codigo) {
         switch (codigo) {
             case KeyEvent.VK_UP, KeyEvent.VK_W -> proximaDirecao = Direcao.CIMA;
@@ -140,7 +133,7 @@ public class SnakeGUI extends JPanel {
         }
     }
 
-    /** Barra superior com a caixa de RECORDE. */
+    // barra de cima com o recorde
     private void desenharTopo(Graphics2D g2, int boardW) {
         g2.setColor(FRENTE);
         g2.setStroke(new BasicStroke(2));
@@ -151,7 +144,7 @@ public class SnakeGUI extends JPanel {
         g2.drawString("SNAKE - PUC GOIAS", boardW - 230, TOPO - 22);
     }
 
-    /** Painel lateral direito com a pontuacao atual. */
+    // painel da direita com a pontuacao
     private void desenharLateral(Graphics2D g2, int boardW) {
         int x = boardW + 16;
         g2.setColor(FRENTE);
@@ -170,16 +163,16 @@ public class SnakeGUI extends JPanel {
         g2.drawString("Tamanho: " + jogo.getCobra().getTamanho(), x + 8, TOPO + 210);
     }
 
-    /** Desenha o tabuleiro, a cobra e a comida. */
+    // desenha o tabuleiro, a cobra e a comida
     private void desenharTabuleiro(Graphics2D g2) {
         int offsetY = TOPO;
 
-        // Moldura do tabuleiro.
+        // moldura
         g2.setColor(FRENTE);
         g2.setStroke(new BasicStroke(2));
         g2.drawRect(0, offsetY, COLUNAS * CELULA, LINHAS * CELULA);
 
-        // Comida (quadrado vazado).
+        // comida
         Posicao comida = jogo.getComida();
         if (comida != null) {
             int cx = comida.getColuna() * CELULA;
@@ -188,7 +181,7 @@ public class SnakeGUI extends JPanel {
             g2.fillOval(cx + 6, cy + 6, CELULA - 12, CELULA - 12);
         }
 
-        // Cobra: cabeca branca cheia, corpo com borda.
+        // cobra: cabeca cheia, corpo com borda
         Cobra cobra = jogo.getCobra();
         Posicao cabeca = cobra.getCabeca();
         for (Posicao p : cobra.getCorpo()) {
@@ -206,7 +199,7 @@ public class SnakeGUI extends JPanel {
         }
     }
 
-    /** Mensagem de fim de jogo. */
+    // tela de fim de jogo
     private void desenharFimDeJogo(Graphics2D g2, int boardW) {
         int offsetY = TOPO;
         g2.setColor(new Color(0, 0, 0, 180));
@@ -222,15 +215,14 @@ public class SnakeGUI extends JPanel {
         g2.drawString(r, (boardW - g2.getFontMetrics().stringWidth(r)) / 2, offsetY + LINHAS * CELULA / 2 + 24);
     }
 
-    // ---- Persistencia simples do recorde em arquivo ----
-
+    // le e grava o recorde num arquivo simples
     private int carregarRecorde() {
         try {
             if (Files.exists(ARQUIVO_RECORDE)) {
                 return Integer.parseInt(Files.readString(ARQUIVO_RECORDE).trim());
             }
         } catch (IOException | NumberFormatException ignorado) {
-            // Se nao conseguir ler, comeca com recorde 0.
+            // se nao der pra ler, comeca em 0
         }
         return 0;
     }
@@ -239,7 +231,7 @@ public class SnakeGUI extends JPanel {
         try {
             Files.writeString(ARQUIVO_RECORDE, String.valueOf(valor));
         } catch (IOException ignorado) {
-            // Se nao conseguir salvar, apenas mantem em memoria.
+            // se nao der pra salvar, deixa so na memoria
         }
     }
 
