@@ -27,12 +27,23 @@ public class JogoSnake {
      * @param altura  numero de linhas do tabuleiro
      */
     public JogoSnake(int largura, int altura) {
+        this(largura, altura, 1);
+    }
+
+    /**
+     * Cria um jogo definindo o tamanho inicial da cobra.
+     *
+     * @param largura        numero de colunas do tabuleiro
+     * @param altura         numero de linhas do tabuleiro
+     * @param tamanhoInicial tamanho inicial da cobra
+     */
+    public JogoSnake(int largura, int altura, int tamanhoInicial) {
         if (largura <= 0 || altura <= 0) {
             throw new IllegalArgumentException("Largura e altura devem ser positivas.");
         }
         this.largura = largura;
         this.altura = altura;
-        this.cobra = new Cobra(new Posicao(altura / 2, largura / 2), Direcao.DIREITA);
+        this.cobra = new Cobra(new Posicao(altura / 2, largura / 2), Direcao.DIREITA, tamanhoInicial);
         this.pontuacao = 0;
         this.jogoAcabou = false;
     }
