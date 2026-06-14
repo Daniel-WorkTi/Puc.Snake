@@ -22,3 +22,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Recorde do jogo (gerado em tempo de execucao)
+recorde.txt
