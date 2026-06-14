@@ -2,12 +2,7 @@ package br.pucgoias.snake;
 
 import java.util.Objects;
 
-/**
- * Representa uma posicao no tabuleiro do jogo, identificada por
- * uma linha e uma coluna. Exemplo: linha 5, coluna 3.
- *
- * <p>A classe e imutavel: ao mover, gera-se uma nova {@link Posicao}.</p>
- */
+// Uma posicao no tabuleiro (linha e coluna).
 public final class Posicao {
 
     private final int linha;
@@ -26,12 +21,7 @@ public final class Posicao {
         return coluna;
     }
 
-    /**
-     * Cria uma nova posicao deslocada de acordo com a direcao informada.
-     *
-     * @param direcao direcao do deslocamento
-     * @return uma nova {@link Posicao} resultante do movimento
-     */
+    // Retorna uma nova posicao andando uma casa na direcao indicada.
     public Posicao mover(Direcao direcao) {
         return new Posicao(
                 linha + direcao.getDeltaLinha(),
@@ -44,9 +34,10 @@ public final class Posicao {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Posicao outra)) {
+        if (!(o instanceof Posicao)) {
             return false;
         }
+        Posicao outra = (Posicao) o;
         return linha == outra.linha && coluna == outra.coluna;
     }
 

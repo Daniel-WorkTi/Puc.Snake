@@ -25,3 +25,6 @@ Thumbs.db
 
 # Recorde do jogo (gerado em tempo de execucao)
 recorde.txt
+
+# Imagens de print usadas na documentacao
+*.png
