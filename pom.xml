@@ -37,6 +37,16 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
             </plugin>
+
+            <!-- Plugin para rodar o jogo no terminal: mvn compile exec:java -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <mainClass>br.pucgoias.snake.Main</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
